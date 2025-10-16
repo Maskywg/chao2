@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《愛在暴力公園》讀書會網頁專區</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* 確保字體在中文環境下也能良好顯示 */
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #0d1117; /* GitHub Dark Theme Background */
+            color: #c9d1d9; /* Light text */
+        }
+        .text-shadow-custom {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        /* 隱藏主內容，直到音樂啟動 */
+        #mainContent {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 背景音樂元件 -->
+<!-- 已更新為您的本地路徑：./audio/music.mp3 -->
+<audio id="bgMusic" loop>
+    <source src="./audio/music.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+</audio>
+
+<!-- 進入畫面（用於繞過瀏覽器自動播放限制） -->
+<div id="entranceScreen" class="fixed inset-0 bg-gray-900 bg-opacity-95 flex flex-col items-center justify-center z-50 p-6">
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-6 text-center">
+        《愛在暴力公園》讀書會
+    </h1>
+    <p class="text-xl text-gray-400 mb-8 text-center">點擊下方按鈕以進入網頁並啟動背景音樂</p>
+    <button id="startButton" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-500">
+        進入網頁並播放音樂
+    </button>
+</div>
+
+<!-- 網頁主要內容 -->
+<div id="mainContent" class="min-h-screen p-4 sm:p-10">
+    
+    <!-- 音樂控制按鈕 (固定在右下角，已加強視覺效果) -->
+    <button id="musicToggle" class="fixed bottom-5 right-5 z-40 bg-pink-600 text-white px-4 py-2 flex items-center space-x-2 rounded-full shadow-2xl hover:bg-pink-700 transition duration-300">
+        <span id="musicStatusText" class="font-semibold text-sm">音樂：播放中</span>
+        <!-- 預設為 PAUSE 暫停圖示 (假設音樂正在播放) -->
+        <svg id="pauseIcon" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+        <!-- PLAY 播放圖示 (預設隱藏) -->
+        <svg id="playIcon" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path d="M5 3l14 9-14 9V3z"/>
+        </svg>
+    </button>
+    
+    <header class="text-center py-10 bg-gray-800 rounded-2xl shadow-2xl mb-6">
+        <h1 class="text-4xl sm:text-6xl font-extrabold text-indigo-400 mb-4 text-shadow-custom">
+            愛在暴力公園
+        </h1>
+        <p class="text-xl sm:text-2xl font-medium text-gray-300">
+            趙叔帶領：深入探討愛與依附的真諦
+        </p>
+    </header>
+
+    <main class="max-w-4xl mx-auto">
+
+        <!-- 讀書會日期與地點資訊區塊 (更新：地點名稱已改為「欒樹下書房」) -->
+        <div class="bg-indigo-900/40 p-5 rounded-xl shadow-inner mb-10 border border-indigo-500/50">
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-12 text-center">
+                <div class="text-xl font-bold flex items-center space-x-2 text-white">
+                    <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>日期：2025/11/29 (週六)</span>
+                </div>
+                <!-- 地點區塊：包含 Maps 和 Facebook 連結 -->
+                <div class="text-xl font-bold flex items-start space-x-2 text-white">
+                    <!-- Location Pin Icon (主圖示) -->
+                    <svg class="w-6 h-6 flex-shrink-0 mt-0.5 text-pink-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                    
+                    <div class="flex flex-col items-start">
+                        <!-- 地點名稱已更新 -->
+                        <span>欒樹下書房</span>
+                        
+                        <div class="flex space-x-4 mt-1 text-base font-normal">
+                            <!-- Google Maps Link -->
+                            <a href="https://maps.app.goo.gl/hRfM6pZi4PF8tQJF8" target="_blank" class="text-yellow-300 hover:text-yellow-400 transition duration-150 flex items-center space-x-1 underline">
+                                <!-- Map Pin Icon -->
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                                <span>地圖導航</span>
+                            </a>
+                            <!-- Facebook Link -->
+                            <a href="https://www.facebook.com/editorsbookscafe" target="_blank" class="text-blue-400 hover:text-blue-300 transition duration-150 flex items-center space-x-1 underline">
+                                <!-- External Link Icon -->
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 分享人與書籍資訊區塊 -->
+        <div class="grid md:grid-cols-2 gap-10 mb-12">
+            
+            <!-- 分享人：趙文煊 D.D.S. -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-xl border border-indigo-700/50">
+                <h2 class="text-3xl font-bold text-indigo-300 mb-4 border-b pb-2 border-indigo-700">
+                    📚 分享人：趙文煊 D.D.S.
+                </h2>
+                <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
+                    <!-- 趙叔的照片欄 (路徑已更新為 ./images/chao.png) -->
+                    <img src="./images/chao.png" 
+                         alt="分享人趙叔照片" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/150x150/1d4ed8/ffffff?text=趙叔';"
+                         class="w-36 h-36 object-cover rounded-full border-4 border-indigo-500 shadow-md">
+                    <div>
+                        <!-- 專業抬頭 - 新增「台灣兒童牙科行為管理學之父」 -->
+                        <p class="text-xl font-bold text-pink-400 mb-1">台灣兒童牙科行為管理學之父</p>
+                        <p class="text-lg font-semibold text-white mb-2">孩子王牙醫診所 負責醫師</p>
+                        
+                        <!-- 專業資歷列表 - 已更新為您提供的最新且完整的資歷清單 -->
+                        <h3 class="text-lg font-bold text-indigo-400 mt-4 mb-1">主要資歷：</h3>
+                        <ul class="text-gray-400 space-y-1 text-sm">
+                            <li class="flex items-start">
+                                <span class="text-indigo-400 mr-2">•</span>
+                                美國馬利蘭大學兒童牙科專科醫師畢業
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-indigo-400 mr-2">•</span>
+                                美國兒童牙科專科醫師學會院士（ABPD Diplomate）
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-indigo-400 mr-2">•</span>
+                                中華民國兒童牙科醫學會專科醫師
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-indigo-400 mr-2">•</span>
+                                中華民國部定講師
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-indigo-400 mr-2">•</span>
+                                1995年美國兒童牙科醫學會畢業學生研究獎得主
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-indigo-400 mr-2">•</span>
+                                前中華民國兒童牙科醫學會理事長
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-indigo-400 mr-2">•</span>
+                                前臺北醫學大學附設醫院牙科部主任
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-indigo-400 mr-2">•</span>
+                                前臺北醫學大學附設醫院兒童牙科復健中心主任
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-indigo-400 mr-2">•</span>
+                                前台北市立萬芳醫院兒童牙科兼任主治醫師
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 書籍資訊：愛在暴力公園 -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-xl border border-yellow-600/50">
+                <h2 class="text-3xl font-bold text-yellow-300 mb-4 border-b pb-2 border-yellow-600">
+                    📖 探討書目
+                </h2>
+                <div class="flex items-start space-x-6">
+                    <!-- 書本照片的欄位 (路徑已更新為 ./images/book.png) -->
+                    <img src="./images/book.png" 
+                         alt="《愛在暴力公園》書籍封面" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/120x180/f59e0b/1a1a1a?text=愛在暴力公園';"
+                         class="w-24 h-36 object-cover rounded-lg shadow-xl border-2 border-yellow-500">
+                    <div>
+                        <p class="text-2xl font-bold text-white mb-2">《愛在暴力公園》</p>
+                        <p class="text-gray-400">
+                            作者：黛博拉．布盧姆 (Deborah Blum)
+                        </p>
+                        <p class="text-gray-400 mt-1">
+                            主題：哈利·哈洛的恆河猴實驗，揭示愛與依附的真諦。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 影片區塊：預告與實驗片段 (已替換為 YouTube 內嵌) -->
+        <section class="bg-gray-800 p-6 rounded-xl shadow-xl border border-pink-700/50 mb-12">
+            <h2 class="text-3xl font-bold text-pink-300 mb-4 border-b pb-2 border-pink-700 text-center">
+                🎬 觀看預告與實驗片段
+            </h2>
+            <div class="aspect-video w-full max-w-2xl mx-auto">
+                <!-- YouTube 內嵌 iframe，已移除固定寬高並套用響應式類別 -->
+                <iframe 
+                    class="w-full h-full rounded-lg shadow-xl"
+                    src="https://www.youtube.com/embed/3L6zKuG0uyw?si=Ti6Hr-5iMMxc9lNf" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+
+        <!-- 宣傳文案區塊 -->
+        <section class="bg-gray-800 p-8 rounded-xl shadow-2xl mb-12">
+            <h2 class="text-3xl font-extrabold text-pink-400 mb-6 text-center">
+                🌐 讀書會簡介：科學背後的人情味
+            </h2>
+            <div class="space-y-4 text-lg leading-relaxed text-gray-300">
+                <p>
+                    各位好，歡迎加入本次讀書會網頁專區！本次分享主題為<strong>《愛在暴力公園》</strong>，由趙叔帶領大家深入探討心理學家哈利·哈洛的恆河猴實驗，如何揭示愛與依附的真諦。哈洛的實驗挑戰了傳統觀念，指出愛不僅是生理需求，而是情感溫暖和安全感的根本來源。雖然實驗方法曾引起倫理爭議，但其發現深刻影響了現代心理學與人際關係的理解。
+                </p>
+                <p>
+                    <!-- 內文已更新：將原本的描述移到宣傳文案的開頭 -->
+                    趙叔以輕鬆詼諧的語調，結合多年兒童心理臨床及教學經驗，將帶領大家從科學角度重新認識愛的力量，並探討如何運用這些理念，提升家庭、社交與職場中的情感連結與心理健康。
+                </p>
+                <p class="font-semibold text-pink-300">
+                    無論您來自哪個行業，這場讀書會都將為您帶來新的啟發和感悟。期待與同屆好友們共聚一堂，開啟一段關於愛與人性的深刻對話。
+                </p>
+            </div>
+        </section>
+
+        <!-- 行動呼籲 (Call to Action) -->
+        <div class="text-center pt-8 pb-10">
+            <!-- 已更新 href 屬性以連結至 Google Forms，並新增 target="_blank" 在新視窗開啟 -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfSgFkNAB4jH72d41d9uPf5_r2yn1cWTvgZNP-6Wec9hiiMDg/viewform?usp=header" target="_blank" class="inline-block bg-pink-600 hover:bg-pink-700 text-white font-black text-2xl py-4 px-12 rounded-full shadow-2xl transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-pink-500">
+                🚀 立即報名，探索愛的科學！
+            </a>
+            <p class="mt-4 text-gray-500 text-sm">座位有限，請盡早報名。</p>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-6 mt-12 border-t border-gray-700/50 text-gray-500">
+        <p>光仁11屆讀書會 &copy; 2025</p>
+    </footer>
+</div>
+
+<script>
+    // Firebase Placeholder for mandatory global variables (Auth/Firestore not used, but good practice to include)
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+    
+    // =================================================================
+    // 處理音樂播放與網頁內容顯示
+    // =================================================================
+    const startButton = document.getElementById('startButton');
+    const entranceScreen = document.getElementById('entranceScreen');
+    const mainContent = document.getElementById('mainContent');
+    const bgMusic = document.getElementById('bgMusic');
+    
+    // 新增：音樂控制元件
+    const musicToggle = document.getElementById('musicToggle');
+    const pauseIcon = document.getElementById('pauseIcon');
+    const playIcon = document.getElementById('playIcon');
+    const musicStatusText = document.getElementById('musicStatusText'); // 新增文本狀態元素
+
+    // 輔助函數：更新音樂圖示和文本
+    function updateMusicIcon(isPlaying) {
+        pauseIcon.style.display = isPlaying ? 'block' : 'none';
+        playIcon.style.display = isPlaying ? 'none' : 'block';
+        musicStatusText.textContent = isPlaying ? '音樂：播放中' : '音樂：已暫停';
+    }
+
+    // 處理：音樂切換按鈕點擊事件
+    if (musicToggle) {
+        musicToggle.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                // 'play' 事件會觸發 updateMusicIcon(true)
+            } else {
+                bgMusic.pause();
+                // 'pause' 事件會觸發 updateMusicIcon(false)
+            }
+        });
+    }
+
+    // 處理：監聽音樂狀態變化以更新圖示
+    bgMusic.addEventListener('play', () => updateMusicIcon(true));
+    bgMusic.addEventListener('pause', () => updateMusicIcon(false));
+
+    // 嘗試在用戶互動後播放音樂 (startButton handler)
+    startButton.addEventListener('click', () => {
+        // 1. 移除進入畫面，顯示主內容 (立即執行，確保網頁內容可見)
+        entranceScreen.style.display = 'none';
+        mainContent.style.display = 'block';
+
+        // 2. 嘗試播放音樂
+        bgMusic.volume = 0.5; // 設定音量
+        const playPromise = bgMusic.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                // 音樂成功播放
+                console.log('音樂已成功啟動！');
+                updateMusicIcon(true);
+            }).catch(error => {
+                // 音樂播放被拒絕
+                console.error('音樂無法自動播放，可能需要用戶手動操作。', error);
+                updateMusicIcon(false); // 如果播放失敗，顯示暫停狀態（播放圖示）
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
